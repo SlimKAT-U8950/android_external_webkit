@@ -63,14 +63,6 @@ static bool hasCookies(JNIEnv*, jobject, jboolean privateBrowsing)
     return WebCookieJar::get(privateBrowsing)->getNumCookiesInDatabase() > 0;
 }
 
-static int countCookies(JNIEnv*, jobject)
-{
-    int cookieCount = 0;
-    cookieCount += WebCookieJar::get(false)->cookieStore()->GetCookieMonster()->numCookies();
-    cookieCount += WebCookieJar::get(true)->cookieStore()->GetCookieMonster()->numCookies();
-    return cookieCount;
-}
-
 static void removeAllCookie(JNIEnv*, jobject)
 {
     WebCookieJar::get(false)->cookieStore()->GetCookieMonster()->DeleteAll(true);
@@ -154,7 +146,6 @@ static JNINativeMethod gCookieManagerMethods[] = {
     { "nativeFlushCookieStore", "()V", (void*) flushCookieStore },
     { "nativeAcceptFileSchemeCookies", "()Z", (void*) acceptFileSchemeCookies },
     { "nativeSetAcceptFileSchemeCookies", "(Z)V", (void*) setAcceptFileSchemeCookies },
-    { "nativeCountCookies", "()I", (void*) countCookies },
 };
 
 int registerCookieManager(JNIEnv* env)
